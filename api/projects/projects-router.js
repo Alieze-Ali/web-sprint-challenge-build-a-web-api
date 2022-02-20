@@ -133,6 +133,16 @@ router.delete('/api/projects/:id', async (req, res) => {
 // `[GET] /api/projects/:id/actions`
 // Returns an array of actions (could be empty) belonging to a project with the given `id`.
 // If there is no project with the given `id` it responds with a status code 404.
+// ??? this passes but I'm not using the 404, would I put in place of 500?? I'll try later ????
+router.get('/api/projects/:id/actions', async (req,res) => {
+    const { id } = req.params;
+    try{
+        const projectActions = await Projects.getProjectActions(id);
+        res.status(200).json(projectActions);
+    } catch (err){
+        res.status(500).json({Error: {err}});
+    }
 
+});
 
 module.exports = router;
