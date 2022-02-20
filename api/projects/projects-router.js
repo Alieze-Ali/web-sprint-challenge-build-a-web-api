@@ -53,6 +53,20 @@ router.get('/api/projects/:id', async (req, res) => {
 // `[POST] /api/projects`
 // Returns the newly created project as the body of the response.
 // If the request body is missing any of the required fields it responds with a status code 400.
+// insert()
+router.post('/api/projects', (req, res) => {
+    const newProject = req.body;
+    Projects.insert(newProject)
+    .then(project => {
+        res.status(200).json(newProject);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({
+            message: 'Error adding the project'
+        });
+    });
+});
 
 
 // `[PUT] /api/projects/:id`
