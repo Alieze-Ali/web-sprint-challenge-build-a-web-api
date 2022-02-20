@@ -5,7 +5,10 @@ const Projects = require('./projects-model');
 
 
 // MIDDLEWARE
-
+const {
+    validateProjectId,
+    validateProject
+} = require('../projects/projects-middleware');
 // ROUTES
 
 // `[GET] /api/projects`
@@ -29,7 +32,7 @@ router.get('/api/projects', (req, res) => {
 // `[GET] /api/projects/:id`
 // Returns a project with the given `id` as the body of the response.
 // If there is no project with the given `id` it responds with a status code 404.
-router.get('/api/projects/:id', async (req, res) => {
+router.get('/api/projects/:id', validateProjectId, async (req, res) => {
     const { id } = req.params;
     try{
         const project = await Projects.get(id);
@@ -74,7 +77,7 @@ router.post('/api/projects', (req, res) => {
 // If there is no project with the given `id` it responds with a status code 404.
 // If the request body is missing any of the required fields it responds with a status code 400.
 // ??? Having issues here, HELP!!! ???
-router.put('/api/projects/:id', (req,res) => {
+router.put('/api/projects/:id', validateProjectId, validateProject, (req,res) => {
   const id = req.params.id;
   const changes = req.body;
   if (!changes) {
@@ -105,7 +108,7 @@ router.put('/api/projects/:id', (req,res) => {
 // Returns no response body.
 // If there is no project with the given `id` it responds with a status code 404.
 /// ??? trouble deleting action
-router.delete('/api/projects/:id', async (req, res) => {
+router.delete('/api/projects/:id', validateProjectId, async (req, res) => {
   const { id } = req.params;
   try{
     const deletedProject = await Projects.remove(id);
@@ -133,7 +136,7 @@ router.delete('/api/projects/:id', async (req, res) => {
 // Returns an array of actions (could be empty) belonging to a project with the given `id`.
 // If there is no project with the given `id` it responds with a status code 404.
 // ??? this passes but I'm not using the 404, would I put in place of 500?? I'll try later ????
-router.get('/api/projects/:id/actions', async (req,res) => {
+router.get('/api/projects/:id/actions', validateProjectId, async (req,res) => {
     const { id } = req.params;
     try{
         const projectActions = await Projects.getProjectActions(id);
