@@ -86,7 +86,7 @@ router.put('/api/projects/:id', (req,res) => {
       .then((updateRes) => {
         console.log('updateResponse', updateRes) 
         if (!updateRes) {
-            res.status(404).json({ message: `Project of id ${id} not found`})
+            res.status(404).json({ message: `Project id ${id} not found`})
         } else {
             res.status(200).json(updateRes);
         }

@@ -56,7 +56,31 @@ router.get('/api/actions/:id', async (req, res) => {
 // Returns the updated action as the body of the response.
 // If there is no action with the given `id` it responds with a status code 404.
 // If the request body is missing any of the required fields it responds with a status code 400.
-
+router.put('/api/actions/:id', (req,res) => {
+    const id = req.params.id;
+    const changes = req.body;
+    if (!changes) {
+        res.status(400).json({
+            message: 'All fields required.'
+        })
+    } else {
+        Actions.update(id, changes)
+        .then((updateRes) => {
+          console.log('updateResponse', updateRes) 
+          if (!updateRes) {
+              res.status(404).json({ message: `Action id ${id} not found`})
+          } else {
+              res.status(200).json(updateRes);
+          }
+      })
+        .catch((err) => {
+            console.log(err)
+            res.status(400).json({
+                 message: 'Unable to update action.'
+            });
+        })
+    }
+  });
 
 // `[DELETE] /api/actions/:id` - SAME
 // Returns no response body.
