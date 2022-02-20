@@ -1,5 +1,6 @@
 // Write your "projects" router here!
 const express = require('express');
+const { actionToBody } = require('../../data/helpers/mappers');
 const router = express.Router();
 const Projects = require('./projects-model');
 
@@ -73,11 +74,60 @@ router.post('/api/projects', (req, res) => {
 // Returns the updated project as the body of the response.
 // If there is no project with the given `id` it responds with a status code 404.
 // If the request body is missing any of the required fields it responds with a status code 400.
+// ??? Having issues here, HELP!!! ???
+router.put('/api/projects/:id', (req,res) => {
+  const id = req.params.id;
+  const changes = req.body;
+  if (!changes) {
+      res.status(400).json({
+          message: 'All fields required.'
+      })
+  } else {
+      Projects.update(id, changes)
+      .then((updateRes) => {
+        console.log('updateResponse', updateRes) 
+        if (!updateRes) {
+            res.status(404).json({ message: `Project of id ${id} not found`})
+        } else {
+            res.status(200).json(updateRes);
+        }
+    })
+      .catch((err) => {
+          console.log(err)
+          res.status(400).json({
+               message: 'Unable to update project.'
+          });
+      })
+  }
+});
 
 
 // `[DELETE] /api/projects/:id`
 // Returns no response body.
 // If there is no project with the given `id` it responds with a status code 404.
+/// ??? trouble deleting action
+router.delete('/api/projects/:id', async (req, res) => {
+  const { id } = req.params;
+  try{
+    const deletedProject = await Projects.remove(id);
+    if(!deletedProject){
+        res.status(404).json({message: "There is no project with the given id"});
+    }else{
+        res.status(200).json(deletedProject);
+    }
+}catch(err){
+    res.status(500).json({Error: {err}});
+}
+//   try{
+//     const delProject = await Projects.remove(id);
+//     res.status(200).json(delProject)
+//   } catch (err) {
+//       console.log(err)
+//       res.status(404).json({
+//           message: 'No project with the given id.'
+//       });
+//   }
+});
 
 
 // `[GET] /api/projects/:id/actions`
