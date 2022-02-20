@@ -50,7 +50,19 @@ router.get('/api/actions/:id', async (req, res) => {
 // Returns the newly created action as the body of the response.
 // If the request body is missing any of the required fields it responds with a status code 400.
 // When adding an action make sure the `project_id` provided belongs to an existing `project`. - this last part is slightly different
-
+router.post('/api/actions', (req, res) => {
+    const newAction = req.body;
+    Actions.insert(newAction)
+    .then(action => {
+        res.status(200).json(newAction);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(400).json({
+            message: 'Error adding the action'
+        });
+    });
+});
 
 // `[PUT] /api/actions/:id` - SAME
 // Returns the updated action as the body of the response.
@@ -85,6 +97,19 @@ router.put('/api/actions/:id', (req,res) => {
 // `[DELETE] /api/actions/:id` - SAME
 // Returns no response body.
 // If there is no action with the given `id` it responds with a status code 404.
+router.delete('/api/actions/:id', async (req, res) => {
+    const { id } = req.params;
+    try{
+      const deletedAction = await Actions.remove(id);
+      if(!deletedAction){
+          res.status(404).json({message: "There is no action with the given id"});
+      }else{
+          res.status(200).json(deletedAction);
+      }
+  }catch(err){
+      res.status(500).json({Error: {err}});
+    }
+  });
 
 
 module.exports = router;
