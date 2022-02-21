@@ -1,12 +1,12 @@
 // add middlewares here related to projects
-const projects = require('./projects-model');
+const Projects = require('./projects-model');
 
-const validateProjectId = async (res, req, next) => {
+const validateProjectId = async (req, res, next) => {
     try{
-        const projectId = req.params.id;
-        console.log(projectId)
-        const project = await projects.getById(projectId);
-        
+        const { id } = req.params;
+        console.log(id)
+        const project = await Projects.get(id);
+        console.log('This is the', project)
         if(!project){
             res.status(404).json([]);
         }else{
@@ -14,15 +14,16 @@ const validateProjectId = async (res, req, next) => {
             next();
         }
     }catch(err){
-        res.status(500).json({message: 'Error'})
+        res.status(500).json({message: err.message })
     }
 }
 
 const validateProject = (req, res, next) => {
-    const newProject = req.body
-    if(!newProject.name || !newProject.description){
+    // const newProject = req.body;
+    const { name, description, completed } = req.body;
+    if(!name || !description || !completed){
         res.status(400).json({message: 'missing required fields'})
-    }else{
+    } else {
         next();
     }
 }

@@ -29,7 +29,7 @@ router.get('/api/actions', (req, res) => {
 // `[GET] /api/actions/:id` - SAME
 // Returns an action with the given `id` as the body of the response.
 // If there is no action with the given `id` it responds with a status code 404.
-router.get('/api/actions/:id', validateActionId, async (req, res) => {
+router.get('/api/actions/:id', async (req, res) => {
     const { id } = req.params;
     try{
         const action = await Actions.get(id);
@@ -54,7 +54,7 @@ router.get('/api/actions/:id', validateActionId, async (req, res) => {
 // Returns the newly created action as the body of the response.
 // If the request body is missing any of the required fields it responds with a status code 400.
 // When adding an action make sure the `project_id` provided belongs to an existing `project`. - this last part is slightly different
-router.post('/api/actions', validateAction, (req, res) => {
+router.post('/api/actions', (req, res) => {
     const newAction = req.body;
     Actions.insert(newAction)
     .then(action => {
@@ -72,7 +72,7 @@ router.post('/api/actions', validateAction, (req, res) => {
 // Returns the updated action as the body of the response.
 // If there is no action with the given `id` it responds with a status code 404.
 // If the request body is missing any of the required fields it responds with a status code 400.
-router.put('/api/actions/:id', validateActionId, validateAction, (req,res) => {
+router.put('/api/actions/:id', (req,res) => {
     const id = req.params.id;
     const changes = req.body;
     if (!changes) {
@@ -101,7 +101,7 @@ router.put('/api/actions/:id', validateActionId, validateAction, (req,res) => {
 // `[DELETE] /api/actions/:id` - SAME
 // Returns no response body.
 // If there is no action with the given `id` it responds with a status code 404.
-router.delete('/api/actions/:id', validateActionId, async (req, res) => {
+router.delete('/api/actions/:id', async (req, res) => {
     const { id } = req.params;
     try{
       const deletedAction = await Actions.remove(id);

@@ -20,7 +20,7 @@ In meeting the minimum viable product (MVP) specifications listed below, your pr
 
 - [x] Run `npm install` to install your dependencies.
 - [x] Run tests locally executing `npm test`.
-- [ ] Reset the database to its original state executing `npm run resetdb`.
+- [x] Reset the database to its original state executing `npm run resetdb`.
 
 ### Task 2: Project Requirements (MVP)
 
@@ -55,7 +55,7 @@ Inside `api/projects/projects-router.js` build the following endpoints:
   - Returns the newly created project as the body of the response.
   - If the request body is missing any of the required fields it responds with a status code 400.
 
-- [x] `[PUT] /api/projects/:id` !!! TROUBLE, SOS HELP!!!
+- [xoxoxo] `[PUT] /api/projects/:id` !!! TROUBLE, SOS HELP!!!
   - Returns the updated project as the body of the response.
   - If there is no project with the given `id` it responds with a status code 404.
   - If the request body is missing any of the required fields it responds with a status code 400.
@@ -72,24 +72,24 @@ Inside `api/projects/projects-router.js` build the following endpoints:
 
 Inside `api/actions/actions-router.js` build endpoints for performing CRUD operations on _actions_:
 
-- [ ] `[GET] /api/actions`
+- [x] `[GET] /api/actions`
   - Returns an array of actions (or an empty array) as the body of the response.
 
-- [ ] `[GET] /api/actions/:id`
+- [x] `[GET] /api/actions/:id`
   - Returns an action with the given `id` as the body of the response.
   - If there is no action with the given `id` it responds with a status code 404.
 
-- [ ] `[POST] /api/actions`
+- [x] `[POST] /api/actions`
   - Returns the newly created action as the body of the response.
   - If the request body is missing any of the required fields it responds with a status code 400.
   - When adding an action make sure the `project_id` provided belongs to an existing `project`.
 
-- [ ] `[PUT] /api/actions/:id`
+- [x] `[PUT] /api/actions/:id`
   - Returns the updated action as the body of the response.
   - If there is no action with the given `id` it responds with a status code 404.
   - If the request body is missing any of the required fields it responds with a status code 400.
 
-- [ ] `[DELETE] /api/actions/:id`
+- [x] `[DELETE] /api/actions/:id`
   - Returns no response body.
   - If there is no action with the given `id` it responds with a status code 404.
 
@@ -162,3 +162,9 @@ Be prepared to demonstrate your understanding of this week's concepts by answeri
 1. The basic principles of the REST architectural style.
 1. Understand and explain the use of Express Routers.
 1. Describe tooling used to manually test the correctness of an API.
+
+
+Stuff to Review:
+1. Running API Points, adding & deleting info
+2. Put project API fail
+3. I don't understand why, when I use middlewares it fails.

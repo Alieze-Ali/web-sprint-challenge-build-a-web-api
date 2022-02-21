@@ -46,7 +46,7 @@ router.get('/api/projects/:id', validateProjectId, async (req, res) => {
 
     }catch (err) {
         res.status(500).json({
-            Error: {err}
+            message: err.message
         });
     }
 
